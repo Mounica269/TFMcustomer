@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/wwwroot/.vscode
+/wwwroot/_del_node_modules
+.DS_Store

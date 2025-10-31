@@ -1,0 +1,40 @@
+ .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 110vh;
+    color:black;
+    text-align: center;
+    background-image: url('../images/sitemaintenance.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .container h1 {
+    font-size: 2.0rem;
+    font-weight:bold;
+    margin: 0;
+    font-family: cursive;
+  }
+
+  .container p{
+    font-weight:bold;
+    margin: 0;
+    font-family: cursive;
+  }
+
+  .logoContainer {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+  }
+  
+  .logo {
+    display: block;
+  }
+  
