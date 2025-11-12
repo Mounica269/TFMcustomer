@@ -2,7 +2,6 @@
 const nextConfig = {
   distDir: 'build',
   reactStrictMode: false,
-  output: 'standalone',
   images: {
     domains: ['localhost', 'apidev.truefriendmatrimony.com','192.168.0.10','api-tfmss.azurewebsites.net','api.truefriendmatrimony.com', 'dev-tfmapiv4.azurewebsites.net'],
     // domains: ['localhost','apidev.truefriendmatrimony.com', 'dev-tfmapiv4.azurewebsites.net'],

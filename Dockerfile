@@ -1,32 +1,29 @@
-# Base image
-FROM node:18-alpine AS base
-
-# Dependencies stage
-FROM base AS deps
+# Install dependencies only when needed
+FROM node:18-alpine AS deps
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 RUN npm install
 
-# Build stage
-FROM base AS builder
+# Rebuild the source code only when needed
+FROM node:18-alpine AS builder
 WORKDIR /app
 
-# Copy dependencies from deps stage
+# Copy node_modules from deps
 COPY --from=deps /app/node_modules ./node_modules
 
-# Copy all project files
+# Copy all files
 COPY . .
 
-# Copy environment file for build
-COPY wwwroot/.env.production ./.env.production
+# Set environment to production
+ENV NODE_ENV=production
 
-# Build Next.js app
+# Build the Next.js app
 RUN npm run build
 
-# Production stage
-FROM base AS runner
+# Production image, copy all the files and run next
+FROM node:18-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -35,10 +32,12 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy necessary files from builder
+# Copy built files
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/next.config.js ./next.config.js
 
 # Set correct permissions
 RUN chown -R nextjs:nodejs /app
@@ -52,5 +51,5 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Start the app
-CMD ["node", "server.js"]
+# Start Next.js
+CMD ["npm", "start"]
